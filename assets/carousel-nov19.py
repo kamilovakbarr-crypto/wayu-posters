@@ -7,29 +7,51 @@ TOTAL = 7
 CSS = open('germany-nov18.html', encoding='utf-8').read().split('<style>')[1].split('</style>')[0]
 CSS = CSS.replace('width:1080px;height:1080px', 'width:1080px;height:1350px')
 CSS += """
-.wrap{padding:60px 66px 104px;display:flex;flex-direction:column}
+.wrap{padding:60px 66px 132px;display:flex;flex-direction:column}
 .tag{align-self:flex-start;margin-top:34px;display:inline-block;background:var(--navy);color:#fff;font-weight:800;font-size:27px;letter-spacing:2px;padding:10px 24px;border-radius:999px}
 h2{font-family:AntonX,Impact,sans-serif;font-weight:400;font-size:80px;line-height:1.06;margin-top:24px;letter-spacing:.5px}
 h2 span{color:var(--orange)}
-ul.l{list-style:none;margin-top:30px;display:flex;flex-direction:column;gap:14px;flex:1}
-ul.l li{flex:1;max-height:150px;display:flex;gap:22px;align-items:center;background:#fff;border-radius:24px;padding:12px 26px;font-weight:800;font-size:37px;line-height:1.15;box-shadow:0 2px 10px rgba(12,36,71,.08)}
+ul.l{list-style:none;margin-top:30px;display:flex;flex-direction:column;gap:10px;flex:1}
+ul.l li{flex:1;max-height:150px;display:flex;gap:22px;align-items:center;background:#fff;border-radius:24px;padding:9px 26px;font-weight:800;font-size:35px;line-height:1.15;box-shadow:0 2px 10px rgba(12,36,71,.08)}
 ul.l li i{flex:none;width:58px;height:58px;border-radius:50%;background:var(--blue);color:#fff;font-style:normal;font-family:AntonX,Impact,sans-serif;font-size:34px;display:flex;align-items:center;justify-content:center}
 ul.red li i{background:var(--orange)}
 .note{margin-top:22px;background:var(--orange);color:#fff;border-radius:24px;padding:24px 30px;font-weight:800;font-size:34px;line-height:1.2}
 .note.b{background:var(--blue)}
-.pg{position:absolute;left:66px;bottom:34px;font-weight:800;font-size:25px;color:#5b4690}
+.pg{display:none}
 .sw{position:absolute;right:66px;bottom:34px;font-weight:800;font-size:25px;color:var(--navy);letter-spacing:1px}
+.ico{position:absolute;right:66px;top:44px;width:112px;height:112px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(255,90,122,.35)}
+.ico svg{width:64px;height:64px;fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.ghost{position:absolute;right:40px;top:150px;font-family:AntonX,Impact,sans-serif;font-size:380px;line-height:1;color:rgba(106,63,208,.09);pointer-events:none}
+.dots{position:absolute;left:66px;bottom:44px;display:flex;gap:10px;align-items:center}
+.dots b{width:14px;height:14px;border-radius:50%;background:rgba(42,20,86,.2)}
+.dots b.on{width:46px;border-radius:999px;background:var(--orange)}
+.sw{background:var(--orange);color:#fff!important;padding:0;width:84px;height:62px;display:flex;align-items:center;justify-content:center;border-radius:999px;bottom:30px!important;font-size:44px!important;line-height:1;box-shadow:0 6px 18px rgba(255,90,122,.35)}
+ul.l li:nth-child(even){margin-left:26px}
+ul.l li:nth-child(odd){margin-right:26px}
+.cover .shield{position:absolute;right:30px;top:330px;width:330px;height:330px;border-radius:50%;background:linear-gradient(145deg,#ff5a7a,#6a3fd0);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(106,63,208,.4)}
+.cover .shield svg{width:180px;height:180px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .cover h1{font-size:170px;margin-top:70px;line-height:1.02;white-space:normal}
 .cover .sub{font-size:48px;margin-top:50px!important}
 """
+ICONS = {
+ 'shield':'<path d="M32 5l21 8v16c0 15-9 25-21 30C20 54 11 44 11 29V13z"/><path d="M22 31l7 7 13-15"/>',
+ 'doc':'<path d="M16 6h22l12 12v40H16z"/><path d="M38 6v12h12"/><path d="M24 30h20M24 40h20M24 50h12"/>',
+ 'hat':'<path d="M8 44h48v6H8z"/><path d="M14 44c0-14 8-22 18-22s18 8 18 22"/><path d="M28 22v-8h8v8"/>',
+ 'scale':'<path d="M32 8v46M18 54h28M12 18h40"/><path d="M12 18L4 36a8 8 0 0016 0zM52 18l-8 18a8 8 0 0016 0z"/>',
+ 'bell':'<path d="M16 44V28a16 16 0 0132 0v16l4 6H12z"/><path d="M27 56a6 6 0 0010 0"/><path d="M32 6v6"/>',
+ 'pass':'<rect x="14" y="6" width="36" height="52" rx="4"/><circle cx="32" cy="26" r="9"/><path d="M22 26h20M32 17v18M22 46h20"/>',
+ 'warn':'<path d="M32 7L59 54H5z"/><path d="M32 24v16M32 47v2"/>',
+}
 HEAD = '<div class="head"><img class="logo" src="logo_mark.png"><span class="div"></span><div class="org">Özbekiston<br>Yoşlari Umumjahon<em>Assotsiatsiyasi</em></div></div>'
 def li(items, red=False):
     return '<ul class="l%s">' % (' red' if red else '') + ''.join('<li><i>%d</i><span>%s</span></li>' % (n, html.escape(t)) for n, t in enumerate(items, 1)) + '</ul>'
 def page(i, body, last=False):
-    foot = '<div class="pg">%d / %d</div>' % (i, TOTAL) + ('<div class="sw">WAYU.UZ</div>' if last else '<div class="sw">SURIŞTIRING →</div>')
-    return '<!doctype html><html lang="uz"><head><meta charset="utf-8"><style>%s</style></head><body><div class="rings"><i></i><i></i><i></i></div><div class="wrap">%s%s</div>%s</body></html>' % (CSS, HEAD, body, foot)
+    icon = {1:'shield',2:'doc',3:'hat',4:'scale',5:'bell',6:'pass',7:'warn'}[i]
+    foot = '<div class="dots">%s</div>' % ''.join('<b class="on"></b>' if k==i else '<b></b>' for k in range(1,TOTAL+1)) + ('<div class="sw" style="width:auto;padding:0 28px;font-size:27px!important">WAYU.UZ</div>' if last else '<div class="sw">→</div>')
+    deco = '<div class="ico"><svg viewBox="0 0 64 64">%s</svg></div>' % ICONS[icon] + ('' if i==1 else '<div class="ghost">0%d</div>' % i)
+    return '<!doctype html><html lang="uz"><head><meta charset="utf-8"><style>%s</style></head><body><div class="rings"><i></i><i></i><i></i></div>%s<div class="wrap">%s%s</div>%s</body></html>' % (CSS, deco, HEAD, body, foot)
 S = []
-S.append(page(1, '<div class="cover"><h1>MEHNAT <span>HUQUQINI</span> BILING</h1><div class="sub">Xorijga işga ketmoqçimisiz? Şartnoma imzolaşdan avval nimalarni bilişingiz kerak</div><div class="chips" style="margin-top:50px"><span class="chip">Şartnoma</span><span class="chip">Şaroit</span><span class="chip">Huquq</span><span class="chip">Himoya</span></div></div>'))
+S.append(page(1, '<div class="cover"><div class="shield"><svg viewBox="0 0 64 64">'+ICONS['shield']+'</svg></div><h1>MEHNAT <span>HUQUQINI</span> BILING</h1><div class="sub">Xorijga işga ketmoqçimisiz? Şartnoma imzolaşdan avval nimalarni bilişingiz kerak</div><div class="chips" style="margin-top:50px"><span class="chip">Şartnoma</span><span class="chip">Şaroit</span><span class="chip">Huquq</span><span class="chip">Himoya</span></div></div>'))
 S.append(page(2, '<div class="tag">1 · MEHNAT ŞARTNOMASI</div><h2>IMZO QÖYIŞDAN AVVAL <span>TEKŞIRING</span></h2>' + li([
  'Ish beruvchining nomi va manzili', 'Lavozim va ish vazifalari', 'Maoş va uning berilış muddati', 'Ish vaqti va dam olış kunlari',
  'Şartnomaning amal qilış muddati', 'Turar joy, ovqat va transport xarajatini kim qoplaydi', 'Şartnomani bekor qilış şartlari']) +
